@@ -14,25 +14,10 @@ class Item extends Model
         'description',
         'found_date',
         'status',
-        'return_date',
+        'returned_date',
         'returned_to',
-        'category_id',
-        'location_id',
-        'condition_id'
+        'category',
+        'location',
+        'condition',
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(Location::class, 'location_id');
-    }
-
-    public function condition()
-    {
-        return $this->belongsTo(Condition::class, 'condition_id');
-    }
 }

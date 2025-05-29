@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('status')->default('Perdido');
             $table->date('returned_date')->nullable();
             $table->string('returned_to')->nullable();
-            $table->unsignedBigInteger('category_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('location_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('condition_id')->constrained()->onDelete('cascade');
+            $table->string('category')->nullable();
+            $table->string('location')->nullable();
+            $table->string('condition')->nullable();
             $table->timestamps();
         });
     }
