@@ -9,10 +9,10 @@ class ItemController extends Controller
 {
     public function index()
     {
+        $items = Item::all();
         return response()->json([
-            'count' => Item::count(),
-            'lost_items' => Item::where('status', 'Perdido')->get(),
-            'returned_items' => Item::where('status', 'Devolvido')->get(),
+            'count' => $items->count(),
+            'items' => $items
         ]);
     }
 
