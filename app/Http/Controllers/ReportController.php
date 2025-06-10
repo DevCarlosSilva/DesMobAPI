@@ -23,9 +23,9 @@ class ReportController extends Controller
             'description' => 'required|string|max:1000',
             'report_date' => 'required|date',
             'reporter_name' => 'required|string|max:255',
-            'category' => 'nullable|string|max:50',
-            'location' => 'nullable|string|max:50',
-            'condition' => 'nullable|string|max:50',
+            'category' => 'required|string|max:50',
+            'location' => 'required|string|max:50',
+            'condition' => 'required|string|max:50',
         ]);
 
         $report = Report::create($validated);
@@ -45,9 +45,9 @@ class ReportController extends Controller
             'description' => 'required|string|max:1000',
             'report_date' => 'required|date',
             'reporter_name' => 'required|string|max:255',
-            'category' => 'nullable|string|max:50',
-            'location' => 'nullable|string|max:50',
-            'condition' => 'nullable|string|max:50',
+            'category' => 'required|string|max:50',
+            'location' => 'required|string|max:50',
+            'condition' => 'required|string|max:50',
         ]);
 
         $report->update($validated);
