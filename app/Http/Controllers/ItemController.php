@@ -2,67 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
 use Illuminate\Http\Request;
+use App\Models\Item;
+use App\Http\Controllers\Controller;
 
 class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::all();
+        $items = Item::All();
+        $count = Item::count();
         return response()->json([
-            'count' => $items->count(),
-            'items' => $items
+            'items' => $items,
+            'count' => $count
         ]);
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'found_date' => 'required|date',
-            'category' => 'required|string|max:50',
-            'location' => 'required|string|max:50',
-            'condition' => 'required|string|max:50',
-            'status' => 'required|string',
-            'returned_date' => 'nullable|date',
-            'returned_to' => 'nullable|string|max:255',
-        ]);
-
-        $item = Item::create($validated);
-
+        $item = Item::create($request->all());
         return response()->json($item, 201);
     }
 
-    public function show(Item $item)
+    public function show($id)
     {
-        return response()->json($item);
+        return Item::findOrFail($id);
     }
 
-    public function update(Request $request, Item $item)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'found_date' => 'required|date',
-            'category' => 'required|string|max:50',
-            'location' => 'required|string|max:50',
-            'condition' => 'required|string|max:50',
-            'status' => 'required|string',
-            'returned_date' => 'nullable|date',
-            'returned_to' => 'nullable|string|max:255',
-        ]);
-
-        $item->update($validated);
-
-        return response()->json($item);
+        $item = Item::findOrFail($id);
+        $item->update($request->all());
+        return response()->json($item, 200);
     }
 
-    public function destroy(Item $item)
+    public function destroy($id)
     {
-        $item->delete();
-
-        return response()->json(['message' => 'Item deletado com sucesso']);
+        Item::destroy($id);
+        return response()->json(null, 204);
     }
 }
