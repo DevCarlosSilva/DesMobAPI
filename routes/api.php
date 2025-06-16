@@ -24,5 +24,3 @@ Route::middleware('auth:sanctum')->group(
         });
     }
 );
-
-require __DIR__ . '/auth.php';
