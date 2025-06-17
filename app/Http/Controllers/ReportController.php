@@ -2,63 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Report;
 use Illuminate\Http\Request;
+use App\Models\Report;
+use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
 {
     public function index()
     {
-        $reports = Report::all();
+        $reports = Report::All();
+        $count = Report::count();
         return response()->json([
-            'count' => $reports->count(),
-            'reports' => $reports
+            'reports' => $reports,
+            'count' => $count
         ]);
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'item_name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'report_date' => 'required|date',
-            'reporter_name' => 'required|string|max:255',
-            'category' => 'required|string|max:50',
-            'location' => 'required|string|max:50',
-            'condition' => 'required|string|max:50',
-        ]);
-
-        $report = Report::create($validated);
-
+        $report = Report::create($request->all());
         return response()->json($report, 201);
     }
 
-    public function show(Report $report)
+    public function show($id)
     {
-        return response()->json($report);
+        return Report::findOrFail($id);
     }
 
-    public function update(Request $request, Report $report)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'item_name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'report_date' => 'required|date',
-            'reporter_name' => 'required|string|max:255',
-            'category' => 'required|string|max:50',
-            'location' => 'required|string|max:50',
-            'condition' => 'required|string|max:50',
-        ]);
-
-        $report->update($validated);
-
-        return response()->json($report);
+        $report = Report::findOrFail($id);
+        $report->update($request->all());
+        return response()->json($report, 200);
     }
 
-    public function destroy(Report $report)
+    public function destroy($id)
     {
-        $report->delete();
-
-        return response()->json(['message' => 'Relato deletado com sucesso']);
+        Report::destroy($id);
+        return response()->json(null, 204);
     }
 }
